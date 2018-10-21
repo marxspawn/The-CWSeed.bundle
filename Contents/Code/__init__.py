@@ -20,7 +20,9 @@ def MainMenu():
     # for both the mobile and image sections but cannot find titles or images for second group
     # If we use item_list = html.xpath('//div[@id="show-hub"]//li[@class="showitem"]/a') it just fails
     # because it can not find the title or image
-    item_list = html.xpath('//li[contains(@class,"showlistgroups")]//li[@class="showitem"]/a')
+
+    item_list = html.xpath('//ul[@class="showslist cwseedshows"]/li/a')
+    #item_list = html.xpath('//li[contains(@class,"showlistgroups")]//li[@class="showitem"]/a')
     #Log('the length of item_list is %s' %len(item_list)) 
     for item in item_list:
         show_url = CW_SEED + item.xpath('./@href')[0]
