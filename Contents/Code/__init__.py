@@ -1,10 +1,12 @@
 CW_SEED = 'http://www.cwseed.com'
-SEED_SHOWS = 'http://www.cwseed.com/shows'
+CW_SEED_SHOWS = 'http://www.cwseed.com/shows'
 CW_ROOT = 'http://www.cwtv.com'
-ICON     = 'icon-default.jpg'
+PREFIX = '/video/thecwseed'
+NAME = 'The CW SEED'
+
+ICON = 'icon-default.jpg'
 RE_JSON = Regex('CWSEED.Site.video_data.videos = (.+);\n')
-NAME = 'CW SEED'
-PREFIX='/video/cwseed'
+
 ####################################################################################################
 def Start():
 
@@ -17,7 +19,7 @@ def MainMenu():
     
     oc = ObjectContainer()
     
-    html = HTML.ElementFromURL(SEED_SHOWS)
+    html = HTML.ElementFromURL(CW_SEED_SHOWS)
     # There is something odd in the shows code that is blocking the ability to access the section that contains images
     # If we use item_list = html.xpath('//li[@class="showitem"]/a') it returns 58 items 
     # for both the mobile and image sections but cannot find titles or images for second group
@@ -43,6 +45,7 @@ def MainMenu():
         return ObjectContainer(header='Empty', message='There are currently no seasons for this show')
     else:
         return oc
+    
 ####################################################################################################
 # Return seasons if listed by seasons or all videos 
 @route(PREFIX + '/seedseasons')
@@ -71,6 +74,7 @@ def SeedSeasons(url, title, thumb=''):
         return ObjectContainer(header='Empty', message='There are currently no seasons for this show')
     else:
         return oc
+    
 ####################################################################################################
 # Pull videos from the json data in the seed formatted video pages
 @route(PREFIX + '/seedjson', season=int)
@@ -128,4 +132,3 @@ def SeedJSON(url, title, season, show_title):
         return ObjectContainer(header="Empty", message="There are no videos to list.")
     else:
         return oc
-    
