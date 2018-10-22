@@ -3,16 +3,16 @@ SEED_SHOWS = 'http://www.cwseed.com/shows'
 CW_ROOT = 'http://www.cwtv.com'
 ICON     = 'icon-default.jpg'
 RE_JSON = Regex('CWSEED.Site.video_data.videos = (.+);\n')
-
+NAME = 'CW SEED'
 PREFIX='/video/cwseed'
 ####################################################################################################
 def Start():
 
-    ObjectContainer.title1 = 'CW Seed'
+    ObjectContainer.title1 = NAME
     DirectoryObject.thumb = R(ICON)
 
 ####################################################################################################
-@handler(PREFIX, 'CW Seed')
+@handler(PREFIX, NAME)
 def MainMenu():
     
     oc = ObjectContainer()
