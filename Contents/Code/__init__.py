@@ -18,25 +18,18 @@ def Start():
 def MainMenu():
     
     oc = ObjectContainer()
-    
-    html = HTML.ElementFromURL(CW_SEED_SHOWS)
-    # There is something odd in the shows code that is blocking the ability to access the section that contains images
-    # If we use item_list = html.xpath('//li[@class="showitem"]/a') it returns 58 items 
-    # for both the mobile and image sections but cannot find titles or images for second group
-    # If we use item_list = html.xpath('//div[@id="show-hub"]//li[@class="showitem"]/a') it just fails
-    # because it can not find the title or image
+    SHOWS_LIST = CW_SEED_SHOWS+'/genre/shows-a-z'
+    html = HTML.ElementFromURL(SHOWS_LIST)
+    item_list = html.xpath('//ul[@class="list videos-4up"]/li/a')
 
-    item_list = html.xpath('//ul[@class="showslist cwseedshows"]/li/a')
-    #item_list = html.xpath('//li[contains(@class,"showlistgroups")]//li[@class="showitem"]/a')
-    #Log('the length of item_list is %s' %len(item_list)) 
     for item in item_list:
-        show_url = CW_SEED + item.xpath('./@href')[0]
-        title = item.xpath('.//text()')[0]
-        #thumb = item.xpath('.//img/@data-src')[0]
-
+        show_url = item.xpath('./@href')[0]
+        title = item.xpath('./@data-slug')[0]
+        thumb = item.xpath('.//div/img/@data-src')[0].split('//')[-1]
         oc.add(DirectoryObject(
-            key = Callback(SeedSeasons, url=show_url, title=title),
-            title = title
+            key=Callback(SeedSeasons, url=show_url, title=title),
+            title=title,
+            thumb=thumb
         ))
     # Since this channel contains mostly old shows that will not change, 
     # we offer the option of reversing the episode order for continuous play from Preferences
